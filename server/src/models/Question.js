@@ -4,7 +4,7 @@ import _ from "lodash"
 const questionsPath = "questions.json"
 
 class Question {
-  constructor({id, question, answer}) {
+  constructor({ id, question, answer }) {
     this.id = id
     this.question = question
     this.answer = answer
@@ -17,17 +17,24 @@ class Question {
   }
 
   isValid() {
+    // create an errors object that we can add to later
     this.errors = {}
+    // designate fields that must be present before saving
     const requiredFields = ["question", "answer"]
     let isValid = true
 
-    for(const requiredField of requiredFields) {
+    // iterate over each requiredField
+    for (const requiredField of requiredFields) {
+      // say first that that field has zero errors (empty array)
       this.errors[requiredField] = []
-      if(!this[requiredField]) {
+      // if this object's property that matches that field is blank, we have an error
+      if (!this[requiredField]) {
         isValid = false
+        // add the error to a list of possible errors for that field
         this.errors[requiredField].push("Can't be blank")
       }
     }
+    // return true or false depending on if there were errors
     return isValid
   }
 
@@ -37,17 +44,24 @@ class Question {
   }
 
   save() {
-    if(this.isValid()) {
-      delete this.errors
+    // if all fields have been filled
+    // if (this.isValid()) {
+      // delete any errors from the past
+      // delete this.errors
+      // get a unique id for this new entry
       this.id = Question.getNextQuestionId()
+      // get the old questions
       const questions = Question.findAll()
+      // add this question to the old ones
       questions.push(this)
+      // prepare the data to be re-added to the file with the new question
       const data = { questions: questions }
+      // add the new set of questions to the JSON file
       fs.writeFileSync(questionsPath, JSON.stringify(data))
       return true
-    } else {
-      return false
-    }
+    // } else {
+    //   return false
+    // }
   }
 }
 
