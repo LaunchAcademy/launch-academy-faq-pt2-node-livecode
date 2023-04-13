@@ -75,4 +75,4 @@ const FAQList = props => {
   )
 }
 
-export default hot(FAQList)
+export default FAQList

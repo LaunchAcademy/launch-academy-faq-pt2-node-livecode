@@ -2,6 +2,7 @@ import React from "react"
 import { render } from "react-dom"
 
 import FAQList from "./components/FAQList"
+import App from "./components/App"
 import config from "./config"
 import RedBox from "redbox-react"
 
@@ -11,12 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (reactElement) {
     if (config.env === "development") {
       try {
-        render(<FAQList />, reactElement)
+        render(<App />, reactElement)
       } catch (e) {
         render(<RedBox error={e} />, reactElement)
       }
     } else {
-      render(<FAQList />, reactElement)
+      render(<App />, reactElement)
     }
   }
 })
